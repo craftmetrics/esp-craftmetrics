@@ -75,6 +75,13 @@ void loop() {
 #define TIMEOUT 5000
 void sendToCraftMetrics(String payload) {
   WiFiClientSecure client;
+  
+  #ifdef ESP8266
+  // For this example, we don't bother to set up X509 cert validation on ESP8266.
+  // On ESP32 this is default behaviour.
+  client.setInsecure();
+  #endif
+  
   if (!client.connect(CM_HOSTNAME, CM_PORT)) {
     Serial.println("Connection Failed");
     return;
